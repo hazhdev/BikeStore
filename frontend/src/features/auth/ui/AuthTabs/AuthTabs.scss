@@ -1,0 +1,12 @@
+.login_btn,
+.register_btn {
+  background: none;
+  border: none;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #101010;
+
+  .active {
+    color: #7a7979;
+  }
+}

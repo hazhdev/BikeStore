@@ -1,0 +1,80 @@
+.form {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  .form__btn {
+    display: flex;
+    justify-content: space-between;
+    width: clamp(260px, 80vw, 360px);
+
+    .login_btn,
+    .register_btn {
+      background: none;
+      border: none;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #101010;
+
+      .active {
+        color: #7a7979;
+      }
+    }
+  }
+
+  .form_login {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .email,
+    .password {
+      display: flex;
+      flex-direction: column;
+      .input_email,
+      .input_password {
+        border: none;
+        background: #f8f8f8;
+        border-radius: 15px;
+        height: clamp(32px, 5vw, 52px);
+        width: clamp(260px, 80vw, 360px);
+        font-size: 1.2em;
+        outline: none;
+        padding: 0 10px;
+      }
+    }
+  }
+
+  .submit {
+    color: white;
+    background-color: #f57520;
+    width: 100%;
+    border: none;
+    align-items: center;
+    border-radius: 15px;
+    height: clamp(32px, 5vw, 52px);
+    font-size: 1rem;
+  }
+
+  .remember {
+    display: flex;
+    justify-content: space-between;
+    width: clamp(260px, 80vw, 360px);
+    .remember_me {
+      display: flex;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .newPasword {
+      text-decoration: none;
+      color: #010101;
+    }
+  }
+  .error {
+    color: rgb(255, 0, 0);
+  }
+}

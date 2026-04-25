@@ -1,3 +1,4 @@
+// Login
 export interface User {
   id: number;
   name: string;
@@ -18,8 +19,16 @@ export interface LoginData {
   password: string;
 }
 
+export interface LoginResponse {
+  user: User;
+  token: string;
+}
+
+// Register
+
 export interface RegisterData {
-  name: string;
   email: string;
+  name: string;
   password: string;
+  newpass: string;
 }
