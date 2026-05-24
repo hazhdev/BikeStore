@@ -1,4 +1,41 @@
-.input_Register {
+.register_form {
+  position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100vh;
+
+  .close_btn {
+    position: absolute;
+    top: 0;
+    right: 15px;
+  }
+  .input_Register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: clamp(260px, 80vw, 360px);
+
+    label {
+      display: flex;
+      flex-direction: column;
+      input {
+        border: none;
+        background: #f8f8f8;
+        border-radius: 15px;
+        height: clamp(32px, 5vw, 52px);
+        width: clamp(260px, 80vw, 360px);
+        font-size: 1.2em;
+        outline: none;
+        padding: 0 10px;
+      }
+    }
+    .register__submit {
+      background-color: #f57520;
+      width: 100%;
+    }
+  }
 }

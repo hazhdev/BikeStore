@@ -7,6 +7,12 @@
   justify-content: center;
   width: 100%;
 
+  .close_btn {
+    position: absolute;
+    top: 0;
+    right: 15px;
+  }
+
   .form__btn {
     display: flex;
     justify-content: space-between;

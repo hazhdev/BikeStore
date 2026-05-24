@@ -1,3 +1,5 @@
+import "./button.scss";
+
 type ButtonProps = {
   children: React.ReactNode;
   type?: "button" | "submit";

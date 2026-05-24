@@ -1,0 +1,178 @@
+.burgerButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+}
+
+.burgerMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  width: 390px;
+  height: 100vh;
+
+  background-color: #ffffff;
+  z-index: 1001;
+
+  padding: 32px 40px;
+  overflow-y: auto;
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileContent {
+  display: none;
+}
+
+.tabletContent {
+  display: block;
+}
+
+.title {
+  margin: 40px 0 32px;
+
+  font-size: 28px;
+  font-weight: 700;
+  color: #111111;
+}
+
+.infoLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  a {
+    color: #111111;
+    font-size: 16px;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #f97316;
+  }
+}
+
+/* Телефоны */
+@media (max-width: 767px) {
+  .burgerMenu {
+    left: 28px;
+    left: 0;
+
+    width: 270px;
+    padding: 24px 14px;
+  }
+
+  .mobileContent {
+    display: block;
+  }
+
+  .tabletContent {
+    display: none;
+  }
+
+  .logo {
+    width: 48px;
+    margin-bottom: 24px;
+  }
+
+  .tradeBlock {
+    margin-bottom: 8px;
+    padding: 14px 12px;
+
+    background-color: #f7f7f7;
+    border-radius: 8px;
+
+    color: #f97316;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .accordionList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+  .accordionButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding: 14px 12px;
+
+    border: none;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+
+    color: #111111;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .accordionButtonActive {
+    background-color: #f97316;
+    color: #ffffff;
+  }
+
+  .subMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    margin: 16px 0 20px;
+    padding: 0 0 0 12px;
+
+    list-style: none;
+
+    a {
+      color: #555555;
+      font-size: 12px;
+      text-decoration: none;
+    }
+  }
+
+  .mobileFooterLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    margin: 18px 0 0;
+    padding: 0 0 0 12px;
+
+    list-style: none;
+
+    a {
+      color: #111111;
+      font-size: 12px;
+      text-decoration: none;
+    }
+  }
+}

@@ -1,14 +1,20 @@
-import onCloseIcon from "@/shared/assets/icons/onClose.svg";
+import type { ReactNode } from "react";
 
 type BtnCloseProps = {
   onClose: () => void;
   className?: string;
+  children?: ReactNode;
 };
 
-export function BtnClose({ className, onClose }: BtnCloseProps) {
+export function BtnClose({ className, onClose, children }: BtnCloseProps) {
   return (
-    <button className={className} onClick={onClose} type="button">
-      <img src={onCloseIcon} alt="Закрыть" />
+    <button
+      className={className}
+      onClick={onClose}
+      type="button"
+      aria-label="Закрыть"
+    >
+      {children}
     </button>
   );
 }

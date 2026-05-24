@@ -1,12 +1,17 @@
-.login_btn,
-.register_btn {
-  background: none;
-  border: none;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #101010;
+.form__btn {
+  display: flex;
+  justify-content: space-between;
+  width: clamp(260px, 80vw, 360px);
+  .login_btn,
+  .register_btn {
+    background: none;
+    border: none;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #101010;
 
-  .active {
-    color: #7a7979;
+    .active {
+      color: #7a7979;
+    }
   }
 }

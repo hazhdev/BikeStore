@@ -1,13 +1,17 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginFetch } from "@/features/auth/model/login/authThunks";
+
 import type { RootState, AppDispatch } from "@/app/store/store";
-import "./login.scss";
+import { loginFetch } from "@/features/auth/model/authThunks";
+
 import { Button } from "@/shared/ui/Button/button";
 import { Input } from "@/shared/ui/Input/input";
 import AuthTabs from "@/features/auth/ui/AuthTabs/AuthTabs";
+import { BtnClose } from "@/shared/ui/Button/BtnClose";
+
+import close from "@/shared/assets/icons/onClose.svg";
+import "./login.scss";
 
 export const LoginForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,71 +19,89 @@ export const LoginForm = () => {
 
   const { status, error } = useSelector((state: RootState) => state.auth);
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
       await dispatch(loginFetch({ email, password })).unwrap();
+
+      setEmail("");
+      setPassword("");
+
       navigate("/profile");
     } catch (err) {
-      console.log("Ошибка логина:", err);
+      console.log(err);
     }
+  };
 
-    setEmail("");
-    setPassword("");
+  const handleClose = () => {
+    setIsOpen(false);
+    navigate("/home");
   };
 
   return (
     <>
-      <div className="form">
-        <AuthTabs active="login" />
+      {isOpen && (
+        <div className="form">
+          <BtnClose className="close_btn" onClose={handleClose}>
+            <img src={close} alt="Закрыть" />
+          </BtnClose>
 
-        <form className="form_login" onSubmit={handleSubmit}>
-          <label className="email">
-            Почта пользователя
-            <Input
-              className="input_email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
+          <AuthTabs active="login" />
 
-          <label className="password">
-            Пароль
-            <Input
-              className="input_password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-
-          <Button
-            className="submit"
-            type="submit"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? "Загрузка..." : "Войти"}
-          </Button>
-
-          <div className="remember">
-            <label className="remember_me">
-              <Input type="checkbox" />
-              Запомнить меня
+          <form className="form_login" onSubmit={handleSubmit}>
+            <label className="email">
+              Почта пользователя
+              <Input
+                className="input_email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </label>
 
-            <Link className="newPasword" to="/newPassword">
-              Забыли пароль?
-            </Link>
-          </div>
+            <label className="password">
+              Пароль
+              <Input
+                className="input_password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
 
-          {error && <p className="error">{error}</p>}
-        </form>
-      </div>
+            <Button
+              className="submit"
+              type="submit"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? "Загрузка..." : "Войти"}
+            </Button>
+
+            <div className="remember">
+              <label className="remember_me">
+                <Input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                />
+                Запомнить меня
+              </label>
+
+              <Link className="newPasword" to="/newPassword">
+                Забыли пароль?
+              </Link>
+            </div>
+
+            {error && <p className="error">{error}</p>}
+          </form>
+        </div>
+      )}
     </>
   );
 };

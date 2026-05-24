@@ -1,0 +1,32 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  width: 1400px;
+  max-width: 100%;
+  margin: 0 auto;
+  .menu,
+  .iconMenu {
+    display: flex;
+    gap: clamp(1rem, 0.704rem + 1.48vw, 2rem);
+    flex-wrap: wrap;
+  }
+  .menuItemLink {
+    color: white;
+    font-size: 12px;
+
+    &:hover {
+      color: #f57520;
+      transition: 0.5s;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .nav {
+    .menu {
+      display: none;
+    }
+  }
+}
