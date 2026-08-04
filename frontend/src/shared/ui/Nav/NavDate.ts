@@ -1,6 +1,5 @@
 import cartIcon from "@/shared/assets/images/NavImg/carzina.svg";
 import favoritesIcon from "@/shared/assets/images/NavImg/favorites.svg";
-import searchIcon from "@/shared/assets/images/NavImg/search.svg";
 import userIcon from "@/shared/assets/images/NavImg/user1.svg";
 import type { NavMenuItem, IconMenuItem, typefooterLinks } from "./navTypes";
 
@@ -8,42 +7,36 @@ export const navMenuItems: NavMenuItem[] = [
   {
     id: "trade-in",
     label: "TRADE IN",
-    href: "/catalog?type=trade-in",
+    href: "/catalog/trade-in",
   },
   {
     id: "bicycles",
     label: "ВЕЛОСИПЕДЫ",
-    href: "/catalog?category=bicycles",
+    href: "/catalog/bicycles",
   },
   {
     id: "parts",
     label: "ЗАПЧАСТИ",
-    href: "/catalog?category=parts",
+    href: "/catalog/parts",
   },
   {
     id: "equipment",
     label: "ЭКИПИРОВКА",
-    href: "/catalog?category=equipment",
+    href: "/catalog/equipment",
   },
   {
     id: "accessories",
     label: "АКСЕССУАРЫ",
-    href: "/catalog?category=accessories",
+    href: "/catalog/accessories",
   },
   {
     id: "trainers",
     label: "ВЕЛОСТАНКИ",
-    href: "/catalog?category=trainers",
+    href: "/catalog/trainers",
   },
 ];
 
 export const iconMenuItems: IconMenuItem[] = [
-  {
-    id: "search",
-    href: "/search",
-    label: "Поиск",
-    icon: searchIcon,
-  },
   {
     id: "profile",
     href: "/profile",
@@ -137,7 +130,6 @@ export const burgerMenuItems = [
       { id: "helmets", label: "Велошлемы", href: "/catalog/helmets" },
       { id: "gloves", label: "Велоперчатки", href: "/catalog/gloves" },
       { id: "glasses", label: "Очки", href: "/catalog/glasses" },
-      { id: "accessories", label: "Аксессуары", href: "/catalog/accessories" },
     ],
   },
   {

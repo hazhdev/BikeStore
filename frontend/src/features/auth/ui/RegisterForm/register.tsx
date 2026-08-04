@@ -60,7 +60,9 @@ export function RegisterForm() {
 
       navigate("/profile");
     } catch {
-      setFormError("Ошибка регистрации");
+      // конкретный текст с сервера («почта занята» и т.п.) уже лежит
+      // в state.auth.error и выводится ниже — свой общий сюда не пишем,
+      // иначе пользователь увидит две ошибки сразу
     }
   };
 
@@ -69,7 +71,7 @@ export function RegisterForm() {
       {isOpen && (
         <div className="register_form">
           <BtnClose className="close_btn" onClose={handleClose}>
-            <img src={close} alt="Закрыть" />
+            <img src={close} alt="" />
           </BtnClose>
 
           <AuthTabs active="register" />
@@ -79,6 +81,7 @@ export function RegisterForm() {
               Имя пользователя
               <Input
                 type="text"
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -88,6 +91,7 @@ export function RegisterForm() {
               E-mail
               <Input
                 type="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -97,6 +101,7 @@ export function RegisterForm() {
               Пароль
               <Input
                 type="password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -106,6 +111,7 @@ export function RegisterForm() {
               Подтвердите пароль
               <Input
                 type="password"
+                autoComplete="new-password"
                 value={newpass}
                 onChange={(e) => setNewpass(e.target.value)}
               />

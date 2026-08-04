@@ -1,24 +1,71 @@
+// внешний слой: во всю ширину экрана, на нём фон
+.navWrapper {
+  background-color: #101010;
+}
+
+// внутренний: ограничен и отцентрован, на нём содержимое
 .nav {
+  position: relative;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+
   width: 1400px;
   max-width: 100%;
   margin: 0 auto;
+  padding: 0 10px;
+
   .menu,
   .iconMenu {
     display: flex;
-    gap: clamp(1rem, 0.704rem + 1.48vw, 2rem);
+    align-items: center;
     flex-wrap: wrap;
+    gap: clamp(1rem, 0.704rem + 1.48vw, 2rem);
   }
+
   .menuItemLink {
-    color: white;
+    color: #ffffff;
     font-size: 12px;
+
+    transition: color 0.5s;
 
     &:hover {
       color: #f57520;
-      transition: 0.5s;
+    }
+  }
+
+  .searchButton {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .searchOverlay {
+    position: absolute;
+    top: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+
+    background-color: #101010;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+
+    .searchInput {
+      width: 260px;
+      border: #4c4c4c;
+      outline: none;
+      background: transparent;
+
+      color: #ffffff;
+      font-size: 22px;
+
+      &::placeholder {
+        color: #777777;
+      }
     }
   }
 }
@@ -27,6 +74,13 @@
   .nav {
     .menu {
       display: none;
+    }
+
+    .searchOverlay {
+      left: 10px;
+      right: 10px;
+
+      width: auto;
     }
   }
 }

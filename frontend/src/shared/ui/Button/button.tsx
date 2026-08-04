@@ -1,7 +1,8 @@
+import type { ReactNode } from "react";
 import "./button.scss";
 
 type ButtonProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   type?: "button" | "submit";
   disabled?: boolean;
   className?: string;
@@ -10,6 +11,8 @@ type ButtonProps = {
 
 export const Button = ({
   children,
+  // без явного type браузер считает кнопку submit — внутри формы
+  // это отправляет её при любом клике
   type = "button",
   disabled = false,
   className,

@@ -34,8 +34,8 @@ export const LoginForm = () => {
       setPassword("");
 
       navigate("/profile");
-    } catch (err) {
-      console.log(err);
+    } catch {
+      // текст ошибки уже лежит в state.auth.error и выводится ниже формы
     }
   };
 
@@ -49,7 +49,7 @@ export const LoginForm = () => {
       {isOpen && (
         <div className="form">
           <BtnClose className="close_btn" onClose={handleClose}>
-            <img src={close} alt="Закрыть" />
+            <img src={close} alt="" />
           </BtnClose>
 
           <AuthTabs active="login" />
@@ -60,6 +60,7 @@ export const LoginForm = () => {
               <Input
                 className="input_email"
                 type="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -70,6 +71,7 @@ export const LoginForm = () => {
               <Input
                 className="input_password"
                 type="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

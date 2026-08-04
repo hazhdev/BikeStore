@@ -3,6 +3,7 @@ import { logout } from "@/features/auth/model/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import style from "./Prifile.module.scss";
+import { Nav } from "@/shared/ui/Nav/nav";
 
 export function Profile() {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +16,7 @@ export function Profile() {
 
   return (
     <div>
+      <Nav />
       <h1>Профиль</h1>
 
       <button className={style.logout} onClick={handleClick}>

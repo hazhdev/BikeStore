@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import burgerIcon from "@/shared/assets/images/NavImg/burger.svg";
 import CloseBurgerIcon from "@/shared/assets/images/NavImg/CloseBurger.svg";
 import logo from "@/shared/assets/images/NavImg/logoBlack.svg";
+import { BtnClose } from "../Button/BtnClose";
 
 import styles from "./burger.module.scss";
 import { burgerMenuItems, footerLinks } from "./NavDate";
@@ -11,6 +12,23 @@ import { burgerMenuItems, footerLinks } from "./NavDate";
 export function Burger() {
   const [isOpen, setIsOpen] = useState(false);
   const [openedItemId, setOpenedItemId] = useState<string | null>("equipment");
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // прячем полосу прокрутки и тут же компенсируем её ширину отступом,
+    // иначе страница дёрнется вправо на эти же пиксели
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+  }, [isOpen]);
 
   const handleToggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -30,7 +48,6 @@ export function Burger() {
         className={styles.burgerButton}
         type="button"
         onClick={handleToggleMenu}
-        aria-label="Открыть меню"
       >
         <img src={burgerIcon} alt="" />
       </button>
@@ -40,16 +57,14 @@ export function Burger() {
           <div className={styles.overlay} onClick={handleCloseMenu} />
 
           <aside className={styles.burgerMenu}>
-            <button
+            <BtnClose
               className={styles.closeButton}
-              type="button"
-              onClick={handleCloseMenu}
-              aria-label="Закрыть меню"
+              onClose={handleCloseMenu}
+              ariaLabel="Закрыть меню"
             >
               <img src={CloseBurgerIcon} alt="" />
-            </button>
+            </BtnClose>
 
-            {/* Телефонная версия */}
             <div className={styles.mobileContent}>
               <img className={styles.logo} src={logo} alt="Логотип" />
 
@@ -99,7 +114,6 @@ export function Burger() {
               </ul>
             </div>
 
-            {/* Планшет и больше */}
             <div className={styles.tabletContent}>
               <h2 className={styles.title}>ДОП. ИНФОРМАЦИЯ</h2>
 
