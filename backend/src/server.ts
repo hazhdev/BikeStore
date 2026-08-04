@@ -1,9 +1,15 @@
-import "dotenv/config";
-import fastify from "fastify";
+import { buildApp } from "./app";
+import { env } from "./config/env";
 
-export const app = fastify({ logger: true });
-const PORT = Number(process.env.PORT) || 5000;
+/**
+ * Точка входа. Единственная задача — поднять собранное приложение
+ * на порту и красиво упасть, если не вышло.
+ */
+const app = buildApp();
 
-app.listen({ port: PORT }, (err, address) => {
-  console.log(`Server running at ${address}`);
+app.listen({ port: env.port, host: "0.0.0.0" }, (err) => {
+  if (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
 });
