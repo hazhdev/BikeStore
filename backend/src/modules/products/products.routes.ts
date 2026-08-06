@@ -1,11 +1,40 @@
-// HTTP-слой товаров.
-//
-// Маршруты:
-//   GET    /products              — каталог: фильтры, сортировка, пагинация
-//   GET    /products/:slug        — карточка товара
-//   GET    /products/:slug/similar — похожие товары
-//   POST   /products              — создать   (requireAuth + requireRole("admin"))
-//   PATCH  /products/:id          — изменить  (то же)
-//   DELETE /products/:id          — удалить   (то же)
-//
-// Подключить в app.ts:  app.register(productsRoutes, { prefix: "/api" })
+import type { FastifyInstance } from "fastify";
+
+import { productListSchema, productSlugSchema } from "./products.schema";
+import {
+  getProductBySlug,
+  getProductList,
+  getSimilarProducts,
+} from "./products.service";
+import type { ProductListQuery } from "./products.types";
+
+export function productsRoutes(app: FastifyInstance) {
+  // каталог: фильтры, сортировка, пагинация
+  app.get<{ Querystring: ProductListQuery }>(
+    "/products",
+    { schema: productListSchema },
+    async (request) => {
+      return getProductList(request.query);
+    },
+  );
+
+  // карточка товара со всеми характеристиками, вариантами и картинками
+  app.get<{ Params: { slug: string } }>(
+    "/products/:slug",
+    { schema: productSlugSchema },
+    async (request) => {
+      const product = await getProductBySlug(request.params.slug);
+      return { product };
+    },
+  );
+
+  // блок «Похожие товары» на странице товара
+  app.get<{ Params: { slug: string } }>(
+    "/products/:slug/similar",
+    { schema: productSlugSchema },
+    async (request) => {
+      const products = await getSimilarProducts(request.params.slug);
+      return { products };
+    },
+  );
+}

@@ -6,3 +6,15 @@
 //
 // Категории вложенные: Велосипеды → Горные / Шоссейные / Детские.
 // Смотри burgerMenuItems в frontend/src/shared/ui/Nav/NavDate.ts
+
+export type Category = {
+  id: number;
+  slug: string;
+  name: string;
+  parentId: number | null;
+  sortOrder: number;
+};
+
+export type CategoryTree = Category & {
+  children: CategoryTree[];
+};

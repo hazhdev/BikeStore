@@ -1,10 +1,26 @@
-// HTTP-слой: пути, схемы, коды ответов. Ни SQL, ни бизнес-правил.
-//
-// Маршруты:
-//   GET    /categories        — дерево категорий для меню и фильтров
-//   GET    /categories/:slug  — одна категория
-//   POST   /categories        — создать   (requireAuth + requireRole("admin"))
-//   PATCH  /categories/:id    — изменить  (то же)
-//   DELETE /categories/:id    — удалить   (то же)
-//
-// Подключить в app.ts:  app.register(categoriesRoutes, { prefix: "/api" })
+import type { FastifyInstance } from "fastify";
+
+import { getBySlug, getCategoryTree } from "./categories.service";
+
+/**
+ * HTTP-слой: пути и коды ответов. Ни SQL, ни бизнес-правил.
+ *
+ * try/catch здесь не нужен: ошибки ловит общий обработчик в app.ts.
+ * Сервис бросает AppError — Fastify сам превращает его в ответ.
+ */
+export function categoriesRoutes(app: FastifyInstance) {
+  // дерево категорий для меню и фильтров каталога
+  app.get("/categories", async () => {
+    const categories = await getCategoryTree();
+    return { categories };
+  });
+
+  // одна категория по slug
+  app.get<{ Params: { slug: string } }>(
+    "/categories/:slug",
+    async (request) => {
+      const category = await getBySlug(request.params.slug);
+      return { category };
+    },
+  );
+}
