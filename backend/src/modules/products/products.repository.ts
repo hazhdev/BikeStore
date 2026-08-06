@@ -53,7 +53,7 @@ const JOINS = `
  * условие и значение всегда добавляются вместе, а номер берётся из
  * текущей длины массива.
  */
-function buildWhere(filters: ProductFilters) {
+function buildWhere(filters: ProductFilters, exclude?: FacetKey) {
   const conditions: string[] = ["p.is_active = true"];
   const values: unknown[] = [];
 
@@ -64,7 +64,7 @@ function buildWhere(filters: ProductFilters) {
 
   // категория: показываем товары и самой категории, и её подкатегорий —
   // клик по "Велосипеды" должен показать горные, шоссейные и детские
-  if (filters.category) {
+  if (filters.category && exclude !== "category") {
     add(
       (n) => `p.category_id IN (
         SELECT id FROM categories WHERE slug = $${n}
@@ -77,16 +77,16 @@ function buildWhere(filters: ProductFilters) {
     );
   }
 
-  if (filters.brand?.length) {
+  if (filters.brand?.length && exclude !== "brand") {
     add((n) => `b.slug = ANY($${n}::text[])`, filters.brand);
   }
 
-  if (filters.frame?.length) {
+  if (filters.frame?.length && exclude !== "frame") {
     add((n) => `fm.slug = ANY($${n}::text[])`, filters.frame);
   }
 
   // цвет и размер живут в вариантах, поэтому проверяем через EXISTS
-  if (filters.color?.length) {
+  if (filters.color?.length && exclude !== "color") {
     add(
       (n) => `EXISTS (
         SELECT 1 FROM product_variants v
@@ -97,7 +97,7 @@ function buildWhere(filters: ProductFilters) {
     );
   }
 
-  if (filters.size?.length) {
+  if (filters.size?.length && exclude !== "size") {
     add(
       (n) => `EXISTS (
         SELECT 1 FROM product_variants v
@@ -107,11 +107,11 @@ function buildWhere(filters: ProductFilters) {
     );
   }
 
-  if (filters.priceMin !== undefined) {
+  if (filters.priceMin !== undefined && exclude !== "price") {
     add((n) => `p.price >= $${n}`, filters.priceMin);
   }
 
-  if (filters.priceMax !== undefined) {
+  if (filters.priceMax !== undefined && exclude !== "price") {
     add((n) => `p.price <= $${n}`, filters.priceMax);
   }
 
@@ -249,4 +249,114 @@ export async function findSimilar(
   );
 
   return result.rows;
+}
+
+/**
+ * Ключ фильтра, который надо ИСКЛЮЧИТЬ при подсчёте.
+ *
+ * Зачем: считая, сколько товаров у каждого бренда, нельзя применять
+ * уже выбранный фильтр по бренду — иначе в списке останется один
+ * выбранный, и переключиться будет некуда. Это называется фасетным
+ * подсчётом: каждый фильтр считается с учётом всех остальных, кроме себя.
+ */
+type FacetKey =
+  | "category"
+  | "brand"
+  | "color"
+  | "frame"
+  | "size"
+  | "price";
+
+export async function findPriceRange(
+  filters: ProductFilters,
+): Promise<{ min: number; max: number }> {
+  const { where, values } = buildWhere(filters, "price");
+
+  const result = await db.query<{ min: string | null; max: string | null }>(
+    `SELECT min(p.price) AS min, max(p.price) AS max ${JOINS} ${where}`,
+    values,
+  );
+
+  const row = result.rows[0];
+
+  return {
+    min: Number(row.min ?? 0),
+    max: Number(row.max ?? 0),
+  };
+}
+
+export async function countByBrand(filters: ProductFilters) {
+  const { where, values } = buildWhere(filters, "brand");
+
+  const result = await db.query<{
+    slug: string;
+    name: string;
+    count: string;
+  }>(
+    `SELECT b.slug, b.name, count(*) AS count
+     ${JOINS} ${where} AND b.id IS NOT NULL
+     GROUP BY b.slug, b.name
+     ORDER BY b.name`,
+    values,
+  );
+
+  return result.rows.map((r) => ({ ...r, count: Number(r.count) }));
+}
+
+export async function countByFrame(filters: ProductFilters) {
+  const { where, values } = buildWhere(filters, "frame");
+
+  const result = await db.query<{
+    slug: string;
+    name: string;
+    count: string;
+  }>(
+    `SELECT fm.slug, fm.name, count(*) AS count
+     ${JOINS} ${where} AND fm.id IS NOT NULL
+     GROUP BY fm.slug, fm.name
+     ORDER BY fm.name`,
+    values,
+  );
+
+  return result.rows.map((r) => ({ ...r, count: Number(r.count) }));
+}
+
+export async function countByColor(filters: ProductFilters) {
+  const { where, values } = buildWhere(filters, "color");
+
+  // DISTINCT p.id: у товара несколько вариантов одного цвета,
+  // без него он посчитался бы дважды
+  const result = await db.query<{
+    slug: string;
+    name: string;
+    hex: string | null;
+    count: string;
+  }>(
+    `SELECT col.slug, col.name, col.hex, count(DISTINCT p.id) AS count
+     ${JOINS}
+     JOIN product_variants v ON v.product_id = p.id
+     JOIN colors col         ON col.id = v.color_id
+     ${where}
+     GROUP BY col.slug, col.name, col.hex
+     ORDER BY col.name`,
+    values,
+  );
+
+  return result.rows.map((r) => ({ ...r, count: Number(r.count) }));
+}
+
+export async function countBySize(filters: ProductFilters) {
+  const { where, values } = buildWhere(filters, "size");
+
+  const result = await db.query<{ value: string; count: string }>(
+    `SELECT v.size AS value, count(DISTINCT p.id) AS count
+     ${JOINS}
+     JOIN product_variants v ON v.product_id = p.id
+     ${where} AND v.size IS NOT NULL
+     GROUP BY v.size
+     ORDER BY v.size`,
+    values,
+  );
+
+  return result.rows.map((r) => ({ ...r, count: Number(r.count) }));
 }

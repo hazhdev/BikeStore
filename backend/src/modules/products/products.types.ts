@@ -78,3 +78,22 @@ export type PaginatedProducts = {
   limit: number;
   totalPages: number;
 };
+
+/** Границы и счётчики для блока фильтров в каталоге */
+export type FacetOption = {
+  slug: string;
+  name: string;
+  count: number;
+};
+
+export type ColorFacet = FacetOption & { hex: string | null };
+
+export type SizeFacet = { value: string; count: number };
+
+export type ProductFacets = {
+  price: { min: number; max: number };
+  brands: FacetOption[];
+  frames: FacetOption[];
+  colors: ColorFacet[];
+  sizes: SizeFacet[];
+};

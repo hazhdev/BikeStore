@@ -3,6 +3,7 @@ import type { FastifyInstance } from "fastify";
 import { productListSchema, productSlugSchema } from "./products.schema";
 import {
   getProductBySlug,
+  getProductFacets,
   getProductList,
   getSimilarProducts,
 } from "./products.service";
@@ -15,6 +16,16 @@ export function productsRoutes(app: FastifyInstance) {
     { schema: productListSchema },
     async (request) => {
       return getProductList(request.query);
+    },
+  );
+
+  // границы цены и счётчики для блока фильтров.
+  // Объявлен ДО /products/:slug — иначе "filters" мог бы попасть в slug
+  app.get<{ Querystring: ProductListQuery }>(
+    "/products/filters",
+    { schema: productListSchema },
+    async (request) => {
+      return getProductFacets(request.query);
     },
   );
 

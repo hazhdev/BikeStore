@@ -1,13 +1,20 @@
 import { AppError } from "../../shared/errors/AppError";
 import {
+  countByBrand,
+  countByColor,
+  countByFrame,
+  countBySize,
   countMany,
   findBySlug,
   findMany,
+  findPriceRange,
   findSimilar,
 } from "./products.repository";
 import type {
   PaginatedProducts,
   ProductDetail,
+  ProductFacets,
+  ProductFilters,
   ProductListItem,
   ProductListQuery,
 } from "./products.types";
@@ -56,4 +63,24 @@ export async function getSimilarProducts(
   const product = await getProductBySlug(slug);
 
   return findSimilar(product.id, product.categorySlug, SIMILAR_LIMIT);
+}
+
+/**
+ * Данные для блока фильтров: границы цены и счётчики по каждому значению.
+ *
+ * Пять запросов идут параллельно — они не зависят друг от друга,
+ * последовательно это заняло бы впятеро больше времени.
+ */
+export async function getProductFacets(
+  filters: ProductFilters,
+): Promise<ProductFacets> {
+  const [price, brands, frames, colors, sizes] = await Promise.all([
+    findPriceRange(filters),
+    countByBrand(filters),
+    countByFrame(filters),
+    countByColor(filters),
+    countBySize(filters),
+  ]);
+
+  return { price, brands, frames, colors, sizes };
 }
