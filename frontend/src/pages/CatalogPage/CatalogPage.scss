@@ -1,0 +1,33 @@
+// контейнер: ограничивает ширину и держит содержимое по центру.
+// Тот же приём, что в nav.module.scss и header.module.scss
+.catalog {
+  width: 1400px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 40px 12px 80px;
+}
+
+.catalog__title {
+  margin-bottom: 32px;
+
+  color: #101010;
+  font-size: clamp(24px, 4vw, 40px);
+}
+
+.product-grid {
+  display: grid;
+  // колонки подстраиваются сами: сколько влезет, но не уже 280px
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+@media (max-width: 767px) {
+  .catalog {
+    padding: 24px 12px 48px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+  }
+}

@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { NewPassword } from "@/features/auth/ui/NewPasswoed/newPass";
 import { Profile } from "@/pages/ProfilePage/Profile";
 import { Home } from "@/pages/HomePage/Home";
+import { CatalogPage } from "@/pages/CatalogPage/CatalogPage";
 import { AuthProvider } from "./authProvider";
 
 export const AppProvider = () => {
@@ -22,6 +23,11 @@ export const AppProvider = () => {
         }
       ></Route>
       <Route path="/home" element={<Home />}></Route>
+
+      {/* два пути на одну страницу: в react-router нельзя
+          объявить параметр необязательным одной строкой */}
+      <Route path="/catalog" element={<CatalogPage />} />
+      <Route path="/catalog/:categorySlug" element={<CatalogPage />} />
     </Routes>
   );
 };
