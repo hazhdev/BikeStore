@@ -24,3 +24,17 @@ export type ProductsResponse = {
   limit: number;
   totalPages: number;
 };
+
+export type FacetOption = {
+  slug: string;
+  name: string;
+  count: number;
+};
+
+export type Facets = {
+  price: { min: number; max: number };
+  brands: FacetOption[];
+  frames: FacetOption[];
+  colors: (FacetOption & { hex: string | null })[];
+  sizes: { value: string; count: number }[];
+};

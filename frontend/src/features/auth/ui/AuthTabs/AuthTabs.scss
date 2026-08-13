@@ -8,10 +8,10 @@
     border: none;
     text-transform: uppercase;
     text-decoration: none;
-    color: #101010;
+    color: var(--color-bl);
 
     .active {
-      color: #7a7979;
+      color: var(--color-grey-2);
     }
   }
 }

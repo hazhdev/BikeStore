@@ -10,8 +10,20 @@
 .catalog__title {
   margin-bottom: 32px;
 
-  color: #101010;
-  font-size: clamp(24px, 4vw, 40px);
+  color: var(--color-bl);
+
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, var(--h3));
+  font-weight: 400;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-heading);
+  text-transform: uppercase;
+}
+
+.catalog__body {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
 }
 
 .product-grid {
@@ -24,6 +36,10 @@
 @media (max-width: 767px) {
   .catalog {
     padding: 24px 12px 48px;
+  }
+
+  .catalog__body {
+    grid-template-columns: 1fr;
   }
 
   .product-grid {

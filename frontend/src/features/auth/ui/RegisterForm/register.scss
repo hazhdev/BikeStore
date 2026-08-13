@@ -24,17 +24,17 @@
       flex-direction: column;
       input {
         border: none;
-        background: #f8f8f8;
+        background: var(--color-bg);
         border-radius: 15px;
         height: clamp(32px, 5vw, 52px);
         width: clamp(260px, 80vw, 360px);
-        font-size: 1.2em;
+        font-size: var(--text-18);
         outline: none;
         padding: 0 10px;
       }
     }
     .register__submit {
-      background-color: #f57520;
+      background-color: var(--color-orange);
       width: 100%;
     }
   }

@@ -1,0 +1,92 @@
+// Типографика из макета.
+// Классы-заготовки под текстовые стили Figma: вместо того чтобы
+// в каждом компоненте писать размер, начертание и межстрочный
+// интервал заново, вешаешь класс.
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-16);
+  line-height: var(--lh-body);
+  color: var(--color-bl);
+}
+
+// ---- заголовки: Bebas Neue, разрядка 5px ----
+
+.h2 {
+  font-family: var(--font-heading);
+  font-size: var(--h2);
+  font-weight: 400;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-heading);
+  text-transform: uppercase;
+}
+
+.h3 {
+  font-family: var(--font-heading);
+  font-size: var(--h3);
+  font-weight: 400;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-heading);
+  text-transform: uppercase;
+}
+
+// ---- текст: Inter ----
+
+.text-12 {
+  font-size: var(--text-12);
+  font-weight: 400;
+  line-height: var(--lh-body);
+}
+
+.text-14 {
+  font-size: var(--text-14);
+  font-weight: 400;
+  line-height: var(--lh-body);
+}
+
+.text-16 {
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: var(--lh-body);
+}
+
+.text-16-light {
+  font-size: var(--text-16);
+  font-weight: 300;
+  line-height: var(--lh-body);
+}
+
+.text-18-med {
+  font-size: var(--text-18);
+  font-weight: 500;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-medium);
+}
+
+.subhead {
+  font-size: var(--text-18);
+  font-weight: 300;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-medium);
+}
+
+.text-20 {
+  font-size: var(--text-20);
+  font-weight: 500;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-medium);
+}
+
+.text-24 {
+  font-size: var(--text-24);
+  font-weight: 500;
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-medium);
+}
+
+// кнопки и ссылки-действия
+.cta {
+  font-size: var(--text-16);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+}

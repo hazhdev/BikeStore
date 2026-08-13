@@ -1,2 +1,4 @@
+@use "./app/styles/variables.scss";
+@use "./app/styles/fonts.scss";
 @use "./features/auth/ui/LoginForm/login.scss";
 @use "./app/styles/normalize.scss";

@@ -26,13 +26,15 @@
   max-width: 720px;
   margin: 0 0 34px;
 
-  color: #ffffff;
+  color: var(--color-white);
 
-  font-family: "Arial Narrow", "Impact", sans-serif;
-  font-size: clamp(52px, 7vw, 96px);
-  line-height: 0.95;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-family: var(--font-heading);
+  // clamp вместо фиксированных 64px: на мобилке заголовок
+  // в 64px не помещается по ширине
+  font-size: clamp(40px, 7vw, var(--h2));
+  line-height: var(--lh-tight);
+  font-weight: 400;
+  letter-spacing: var(--ls-heading);
   text-transform: uppercase;
 }
 
@@ -40,10 +42,10 @@
   max-width: 650px;
   margin: 0 0 44px;
 
-  color: #ffffff;
+  color: var(--color-white);
 
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: var(--text-18);
+  line-height: var(--lh-body);
   font-weight: 400;
 }
 
@@ -54,17 +56,17 @@
   border: none;
   border-radius: 10px;
 
-  background-color: #f57520;
-  color: #ffffff;
+  background-color: var(--color-orange);
+  color: var(--color-white);
 
-  font-size: 16px;
+  font-size: var(--text-16);
   font-weight: 600;
 
   cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #ff7f2a;
+    background-color: var(--color-orange);
   }
 }
 
@@ -93,7 +95,7 @@
     max-width: 500px;
     margin-bottom: 32px;
 
-    font-size: 15px;
+    font-size: var(--text-14);
     line-height: 1.5;
   }
 
@@ -113,6 +115,6 @@
   }
 
   .description {
-    font-size: 14px;
+    font-size: var(--text-14);
   }
 }
