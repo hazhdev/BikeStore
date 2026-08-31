@@ -14,15 +14,6 @@ function formatPrice(value: string): string {
   return `${new Intl.NumberFormat("ru-RU").format(Number(value))} ₽`;
 }
 
-/** Флаг страны эмодзи — в макете он стоит слева над названием */
-const FLAGS: Record<string, string> = {
-  France: "🇫🇷",
-  USA: "🇺🇸",
-  Italy: "🇮🇹",
-  Spain: "🇪🇸",
-  Switzerland: "🇨🇭",
-};
-
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="product-card">
@@ -32,10 +23,16 @@ export function ProductCard({ product }: ProductCardProps) {
             меньше места, чем задано пропорцией */}
         <div className="product-card__meta">
           {/* одна ветка — показать или ничего, поэтому && */}
-          {product.country && (
-            <span className="product-card__flag">
-              {FLAGS[product.country] ?? product.country}
-            </span>
+          {/* флаг картинкой, а не эмодзи: Windows не умеет рисовать
+              эмодзи-флаги и показывает вместо них код страны */}
+          {product.countryCode && (
+            <img
+              className="product-card__flag"
+              src={`/flags/${product.countryCode}.webp`}
+              alt={product.country ?? ""}
+              width={24}
+              height={16}
+            />
           )}
 
           {product.inStock ? (

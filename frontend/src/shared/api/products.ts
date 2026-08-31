@@ -2,32 +2,51 @@ import { apiClient } from "./client";
 import type { Facets, ProductsResponse } from "../types/product";
 
 /**
- * Собирает строку запроса из фильтров.
- * append, а не set: у одного имени может быть несколько значений
- * (?brand=trek&brand=scott), а set затирал бы предыдущее.
+ * Фильтры каталога одним объектом, а не списком аргументов:
+ * впереди ещё размер, материал, цена, наличие, сортировка и страница —
+ * девять параметров подряд удержать в голове невозможно.
  */
-function buildQuery(category?: string, brands?: string[]): string {
+export type ProductQuery = {
+  category?: string;
+  brands?: string[];
+  colors?: string[];
+  frames?: string[];
+  priceMin?: number;
+  priceMax?: number;
+};
+
+function buildQuery(query: ProductQuery): string {
   const params = new URLSearchParams();
 
-  if (category) {
-    params.set("category", category);
+  if (query.category) {
+    params.set("category", query.category);
   }
 
-  brands?.forEach((brand) => params.append("brand", brand));
+  if (query.priceMin !== undefined) {
+    params.set("priceMin", String(query.priceMin));
+  }
+
+  if (query.priceMax !== undefined) {
+    params.set("priceMax", String(query.priceMax));
+  }
+
+  query.brands?.forEach((brand) => params.append("brand", brand));
+  query.colors?.forEach((color) => params.append("color", color));
+  query.frames?.forEach((frame) => params.append("frame", frame));
 
   return params.toString();
 }
 
-export function getProducts(category?: string, brands?: string[]) {
-  const query = buildQuery(category, brands);
-  const path = query ? `/products?${query}` : "/products";
+export function getProducts(query: ProductQuery = {}) {
+  const search = buildQuery(query);
+  const path = search ? `/products?${search}` : "/products";
 
   return apiClient<ProductsResponse>(path);
 }
 
-export function getFilters(category?: string, brands?: string[]) {
-  const query = buildQuery(category, brands);
-  const path = query ? `/products/filters?${query}` : "/products/filters";
+export function getFilters(query: ProductQuery = {}) {
+  const search = buildQuery(query);
+  const path = search ? `/products/filters?${search}` : "/products/filters";
 
   return apiClient<Facets>(path);
 }

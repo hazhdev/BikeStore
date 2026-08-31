@@ -1,15 +1,27 @@
+// Значения взяты из макета (фрейм «Каталог», группа фильтров):
+//   заголовок группы — Inter Medium 18/1.6
+//   пункт фильтра    — Inter Regular 16/1.6
+//   счётчик и «Показать ещё» — Inter Regular 12/1.6, uppercase
+//   чекбокс — 24×24, скругление 4, рамка #777
+
 .filters {
   &__group {
-    padding-bottom: 16px;
+    padding: 32px 16px;
     border-bottom: 1px solid var(--color-grey-3);
+
+    // рамка сверху нужна только первому: у остальных
+    // её роль играет нижняя рамка предыдущего блока
+    &:first-of-type {
+      border-top: 1px solid var(--color-grey-3);
+    }
   }
 
   &__summary {
-    padding: 12px 0;
-
-    color: var(--color-bl);
-    font-size: var(--text-14);
-    font-weight: 600;
+    color: var(--color-dark);
+    font-size: var(--text-18);
+    font-weight: 500;
+    line-height: var(--lh-body);
+    letter-spacing: var(--ls-medium);
     cursor: pointer;
     user-select: none;
   }
@@ -17,29 +29,194 @@
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 19px;
 
-    padding-top: 4px;
+    margin-top: 24px;
+  }
+
+  &__list-colors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+
+    margin-top: 24px;
+  }
+
+  &__sublist {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+
+    margin: 19px 0 0 34px;
+  }
+
+  &__link {
+    color: var(--color-black);
+    font-size: var(--text-16);
+
+    &:hover {
+      color: var(--color-orange);
+    }
+
+    &--child {
+      color: var(--color-grey-2);
+    }
   }
 
   &__item {
+    // якорь для спрятанного input: без position его absolute
+    // отсчитывается от ближайшего позиционированного предка,
+    // а если такого нет — от всей страницы
+    position: relative;
+
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 
+    min-height: 24px;
     cursor: pointer;
   }
 
+  // квадратный чекбокс из макета.
+  // настоящий <input> спрятан — рисуем этот span
+  &__box {
+    position: relative;
+
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+
+    border: 1px solid var(--color-grey-2);
+    border-radius: 4px;
+    background: var(--color-white);
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+
+    // галочка — тот же путь, что в макете (M4.5 12.5 L9 17 L19 6),
+    // вшитый прямо в стиль: отдельный файл ради 100 байт не нужен
+    &::after {
+      content: "";
+      position: absolute;
+      // box-sizing: border-box — 24px уже включают рамку,
+      // поэтому раздвигаем на 1px, чтобы галочка легла
+      // ровно в те же 24×24, что и в макете
+      inset: -1px;
+
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M4.5 12.5L9 17L19 6' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+
+      opacity: 0;
+    }
+
+    // у категорий не чекбокс, а ссылка — состояние приходит
+    // классом, а не от :checked
+    &--checked {
+      border-color: var(--color-orange);
+      background: var(--color-orange);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
   &__name {
-    color: var(--color-bl);
-    font-size: var(--text-14);
+    color: var(--color-black);
+    font-size: var(--text-16);
+    line-height: var(--lh-body);
   }
 
   // счётчик прижимается к правому краю
   &__count {
     margin-left: auto;
 
-    color: var(--color-grey-2);
-    font-size: var(--text-14);
+    color: var(--color-light-grey);
+    font-size: var(--text-12);
+    line-height: var(--lh-body);
+    text-transform: uppercase;
   }
+
+  // кнопка «Показать ещё»
+  &__more {
+    margin-top: 24px;
+    padding: 0;
+
+    border: none;
+    background: none;
+
+    color: var(--color-grey-2);
+    font-size: var(--text-12);
+    line-height: var(--lh-body);
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-orange);
+    }
+  }
+
+  &__swatch {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    border: 1px solid var(--color-grey-3);
+    background: var(--swatch);
+  }
+  &__reset {
+    display: block;
+    width: calc(100% - 32px);
+    height: 52px;
+    margin: 24px 16px 0;
+
+    border: 1px solid var(--color-grey-3);
+    border-radius: 4px;
+    background: var(--color-white);
+
+    color: var(--color-black);
+    font-size: var(--text-16);
+    line-height: var(--lh-body);
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      color 0.15s;
+
+    &:hover {
+      border-color: var(--color-orange);
+      color: var(--color-orange);
+    }
+  }
+}
+
+// прячем чекбокс только внутри фильтров, а не во всём приложении.
+// не display: none — иначе элемент выпадает из навигации по Tab
+.filters__item input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.filters__item input[type="checkbox"]:checked + .filters__swatch {
+  box-shadow: 0 0 0 2px var(--color-bl);
+}
+
+.filters__item input[type="checkbox"]:checked + .filters__box {
+  border-color: var(--color-orange);
+  background: var(--color-orange);
+}
+
+.filters__item input[type="checkbox"]:checked + .filters__box::after {
+  opacity: 1;
+}
+
+// input невидим, поэтому браузер не может подсветить его сам.
+// без этого правила при ходьбе по Tab непонятно, где ты стоишь
+.filters__item input[type="checkbox"]:focus-visible + .filters__box,
+.filters__item input[type="checkbox"]:focus-visible + .filters__swatch {
+  outline: 2px solid var(--color-bl);
+  outline-offset: 2px;
 }

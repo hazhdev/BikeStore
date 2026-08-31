@@ -82,6 +82,9 @@ CREATE TABLE IF NOT EXISTS products (
 
   -- поля под фильтры каталога из макета
   country           VARCHAR(100),
+  -- код страны по ISO 3166-1 (fr, us, it): по нему фронт находит флаг.
+  -- Название хранится отдельно — его показывают в характеристиках
+  country_code      VARCHAR(2),
   frame_material_id INTEGER REFERENCES frame_materials (id) ON DELETE SET NULL,
 
   rating         NUMERIC(2, 1) NOT NULL DEFAULT 0

@@ -21,6 +21,7 @@ const LIST_FIELDS = `
   p.rating,
   p.rating_count  AS "ratingCount",
   p.country,
+  p.country_code  AS "countryCode",
   b.slug          AS "brandSlug",
   b.name          AS "brandName",
   c.slug          AS "categorySlug",

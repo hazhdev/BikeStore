@@ -8,6 +8,7 @@ export type ProductListItem = {
   rating: string;
   ratingCount: number;
   country: string | null;
+  countryCode: string | null;
   brandSlug: string | null;
   brandName: string | null;
   categorySlug: string | null;

@@ -8,6 +8,16 @@ a {
   text-decoration: none;
 }
 
+// элементы форм не наследуют шрифт от родителя — это правило
+// браузера, а не наша ошибка. Без этой строки кнопки и поля
+// рисуются системным Arial вместо Inter из макета
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 ul {
   list-style: none;
 }

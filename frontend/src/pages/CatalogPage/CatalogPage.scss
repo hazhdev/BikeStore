@@ -22,7 +22,8 @@
 
 .catalog__body {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  // 290px — ширина колонки фильтров в макете
+  grid-template-columns: 290px 1fr;
   gap: 40px;
 }
 
@@ -31,6 +32,7 @@
   // колонки подстраиваются сами: сколько влезет, но не уже 280px
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 40px;
+  align-content: start;
 }
 
 @media (max-width: 767px) {
